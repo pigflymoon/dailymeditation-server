@@ -26,7 +26,6 @@ class App extends React.Component {
                     <h1 className="App-title">Welcome to React</h1>
                     <Navigation/>
 
-
                     <Route exact path={routes.OVERVIEW} component={() => <Overview />}/>
                     <Route exact path={routes.SIGN_IN} component={() => <SignIn/>}/>
                     <Route exact path={routes.ACCOUNT} component={() => <Account />}/>
