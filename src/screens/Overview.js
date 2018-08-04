@@ -1,20 +1,39 @@
 import React, {Component} from 'react';
 
-import {withStyles} from '@material-ui/core/styles';
-import Typography from '@material-ui/core/Typography';
-import BurgerMenu from 'react-burger-menu'
-
-
 import {overviewStyle} from '../styles/overview';
 
-
+import {Title, Icon}from '../styles/Global';
 import withAuthorization from '../components/withAuthorization';
 import withRoot from '../components/withRoot';
 
 import classNames from 'classnames';
 
+//FontAwesome
+
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fab } from '@fortawesome/free-brands-svg-icons'
+import {
+    faCoffee,
+    faCog,
+    faSpinner,
+    faQuoteLeft,
+    faSquare,
+    faCheckSquare
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+library.add(
+    fab,
+    faCoffee,
+    faCog,
+    faSpinner,
+    faQuoteLeft,
+    faSquare,
+    faCheckSquare
+)
+
 class Overview extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props);
         this.state = {
             currentMenu: 'slide',
@@ -24,45 +43,16 @@ class Overview extends Component {
 
 
     render() {
-        const {classes} = this.props;
         return (
-           <div className={classes.wrapper}>
-               <div className={classes.sidebar}>
-                   <div class='title'>
-                       Sidebar
-                   </div>
-                   <ul className={classes.nav}>
-                       <li>
-                           <a>Dashboard</a>
-                       </li>
-                       <li>
-                           <a>Statistics</a>
-                       </li>
-                       <li>
-                           <a className={classes.active}>Milestones</a>
-                       </li>
-                       <li>
-                           <a>Experiments</a>
-                       </li>
-                       <li>
-                           <a>Previews</a>
-                       </li>
-                       <li>
-                           <a>Assets</a>
-                       </li>
-                       <li>
-                           <a>Settings</a>
-                       </li>
-                       <li>
-                           <a>Logout</a>
-                       </li>
-                   </ul>
-               </div>
-               <div className={classes.content}>
-                   <h1>Flexbox off canvas menu</h1>
-               </div>
+            <div>
+                <FontAwesomeIcon
+                    icon={['fas', 'cog']}
+                    fixedWidth={false}
+                    size="2x"
+                />
 
-           </div>
+                <Title>Test</Title>
+            </div>
         );
 
 
@@ -73,5 +63,5 @@ class Overview extends Component {
 const authCondition = (authUser) => !!authUser;
 
 
-Overview = withRoot(withStyles(overviewStyle)(Overview));
+Overview = withRoot(Overview);
 export default withAuthorization(authCondition)(Overview);

@@ -12,18 +12,25 @@ import Account from '../screens/Account';
 import withAuthentication from '../components/withAuthentication';
 import * as routes from '../constants/routes';
 
-class App extends React.Component {
+// import DefaultTheme from '../styles/theme/DefaultTheme';
+// const {color, font} = DefaultTheme;
+
+
+class App extends Component {
     showSettings(event) {
         event.preventDefault();
 
     }
 
     render() {
+        const {
+            styles
+        }= this.props
         return (
 
             <Router>
                 <div>
-                    <h1 className="App-title">Welcome to React</h1>
+                    <h1>Welcome to React</h1>
                     <Navigation/>
 
                     <Route exact path={routes.OVERVIEW} component={() => <Overview />}/>
