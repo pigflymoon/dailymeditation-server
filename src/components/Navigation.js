@@ -2,6 +2,21 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import  * as routes from '../constants/routes';
+import {
+    MainWrapper,
+    Sidebar,
+    SidebarTitle,
+    SideNav,
+    SideNavLi,
+    NavLink,
+    StyledLink,
+    SideNavActiveLi,
+    MainContent,
+    LinkButton,
+    Title,
+    Icon
+} from '../styles/Global';
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 
 import SignOutButton from './SignOut';
 
@@ -23,22 +38,29 @@ Navigation.contextTypes = {
 
 const NavigationAuth = (userAndRole) => {
     return (
-        <ul>
-            <li>
-                <Link to={routes.OVERVIEW}>Overview</Link>
-            </li>
-            <li><SignOutButton email={userAndRole.email} role={userAndRole.role}/></li>
-        </ul>
+        <SideNav>
+            <StyledLink to={routes.OVERVIEW}><FontAwesomeIcon
+                icon={['fas', 'bars']}
+                fixedWidth={false}
+                size="1x"
+            />Overview</StyledLink>
+
+            <SideNavLi><NavLink><SignOutButton email={userAndRole.email} role={userAndRole.role}/></NavLink></SideNavLi>
+
+        </SideNav>
+
     )
 }
 
 const NavigationNotAuth = () => {
     return (
-        <ul>
-            <li>
-                <Link to={routes.SIGN_IN}>SIGN IN</Link>
-            </li>
-        </ul>
+        <SideNav>
+            <StyledLink to={routes.SIGN_IN}><FontAwesomeIcon
+                icon={['fas', 'bars']}
+                fixedWidth={false}
+                size="1x"
+            />SIGN IN</StyledLink>
+        </SideNav>
     )
 }
 
