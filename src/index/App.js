@@ -34,6 +34,8 @@ import {
     faSquare,
     faCheckSquare,
     faBars,
+    faUser,
+
 } from '@fortawesome/free-solid-svg-icons'
 library.add(
     fab,
@@ -43,7 +45,8 @@ library.add(
     faQuoteLeft,
     faSquare,
     faCheckSquare,
-    faBars
+    faBars,
+    faUser,
 )
 
 

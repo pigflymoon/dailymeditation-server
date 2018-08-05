@@ -39,12 +39,22 @@ Navigation.contextTypes = {
 const NavigationAuth = (userAndRole) => {
     return (
         <SideNav>
-            <StyledLink to={routes.OVERVIEW}><FontAwesomeIcon
-                icon={['fas', 'bars']}
-                fixedWidth={false}
-                size="1x"
-            />Overview</StyledLink>
-
+            <SideNavLi>
+                <FontAwesomeIcon
+                    icon={['fas', 'bars']}
+                    fixedWidth={false}
+                    size="1x"
+                />
+                <StyledLink to={routes.OVERVIEW}>Overview</StyledLink>
+            </SideNavLi>
+            <SideNavLi>
+                <FontAwesomeIcon
+                    icon={['fas', 'user']}
+                    fixedWidth={false}
+                    size="1x"
+                />
+                <StyledLink to={routes.ACCOUNT}>Account</StyledLink>
+            </SideNavLi>
             <SideNavLi><NavLink><SignOutButton email={userAndRole.email} role={userAndRole.role}/></NavLink></SideNavLi>
 
         </SideNav>
