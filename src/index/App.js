@@ -35,6 +35,7 @@ import {
     faCheckSquare,
     faBars,
     faUser,
+    faFileAudio,
 
 } from '@fortawesome/free-solid-svg-icons'
 library.add(
@@ -47,6 +48,7 @@ library.add(
     faCheckSquare,
     faBars,
     faUser,
+    faFileAudio,
 )
 
 

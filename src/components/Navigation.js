@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
 import  * as routes from '../constants/routes';
 import {
-    MainWrapper,
-    Sidebar,
-    SidebarTitle,
     SideNav,
     SideNavLi,
     NavLink,
@@ -46,6 +42,14 @@ const NavigationAuth = (userAndRole) => {
                     size="1x"
                 />
                 <StyledLink to={routes.OVERVIEW}>Overview</StyledLink>
+            </SideNavLi>
+            <SideNavLi>
+                <FontAwesomeIcon
+                    icon={['fas', 'file-audio']}
+                    fixedWidth={false}
+                    size="1x"
+                />
+                <StyledLink to={routes.AUDIO}>Audio</StyledLink>
             </SideNavLi>
             <SideNavLi>
                 <FontAwesomeIcon
