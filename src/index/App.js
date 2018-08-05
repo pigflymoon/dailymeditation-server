@@ -20,6 +20,7 @@ import withAuthentication from '../components/withAuthentication';
 import * as routes from '../constants/routes';
 import Navigation from '../components/Navigation';
 import Overview from '../screens/Overview';
+import Audio from '../screens/Audio';
 import SignIn from '../screens/SignIn';
 import Account from '../screens/Account';
 //FontAwesome
@@ -81,6 +82,8 @@ class App extends Component {
                             size="2x"
                         /></LinkButton>
                         <Route exact path={routes.OVERVIEW} component={() => <Overview />}/>
+                        <Route exact path={routes.AUDIO} component={() => <Audio />}/>
+
                         <Route exact path={routes.SIGN_IN} component={() => <SignIn/>}/>
                         <Route exact path={routes.ACCOUNT} component={() => <Account />}/>
 

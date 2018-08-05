@@ -1,10 +1,7 @@
 import React, {Component} from 'react';
 
-import {overviewStyle} from '../styles/overview';
-
 import {
     Title,
-
 }from '../styles/Global';
 import withAuthorization from '../components/withAuthorization';
 import withRoot from '../components/withRoot';
