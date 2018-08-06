@@ -33,7 +33,22 @@ export default class UploadPanel extends Component {
 
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (this.state.activeTab !== nextProps.activeTab) {
+            this.setState({
+                imagePreviewUrls: [],
+                uploadStatus: 'Please choose file to upload',
+            });
+        }
+        this.setState({
+            // imagePreviewUrls: [],
+            // uploadStatus: 'Please choose file to upload',
+            imageCategory: nextProps.imageCategory,
+            activeTab: nextProps.activeTab,
+            activeTabIndex: nextProps.activeTabIndex
+        });
 
+    }
 
     render() {
         const {classes} = this.props;

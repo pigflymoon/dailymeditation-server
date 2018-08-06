@@ -47,24 +47,30 @@ class Beginner extends Component {
         super(props);
         this.state = {
             activeTabIndex: 0,
-            value: 0,
         };
     }
 
     handleChange = (event, value) => {
-        this.setState({ value });
+        let tabs = ["beingPresent", "howToBreathe", "bodyScan", "observeYourThoughts", "makeSpaceForYourEmotions", "setMeditationGoals", "meditateEveryDay"];
+        for (let tab of tabs) {
+            let tabValue = tabs[value];
+            if (tab == tabValue) {
+                this.setState({activeTabIndex: value, activeTab: tab});
+
+            }
+        }
     };
 
     render() {
         const {classes} = this.props;
-        const {value} = this.state;
+        const {activeTabIndex} = this.state;
         return (
             <RightWrapper>
                 <Paper>
                     <div className={classes.root}>
                         <AppBar position="static" color="default">
                             <Tabs
-                                value={value}
+                                value={activeTabIndex}
                                 onChange={this.handleChange}
                                 scrollable
                                 scrollButtons="on"
@@ -76,22 +82,17 @@ class Beginner extends Component {
                                 <Tab label="Body Scan" icon={<PersonPinIcon />}/>
                                 <Tab label="Observe your Thoughts" icon={<HelpIcon />}/>
                                 <Tab label="Make Space for your emotions" icon={<ShoppingBasket />}/>
-                                <Tab label="Set Reasonable Goals" icon={<ThumbDown />}/>
+                                <Tab label="Set Meditation Goals" icon={<ThumbDown />}/>
                                 <Tab label="Bring Meditation into Your Every Day Life" icon={<ThumbUp />}/>
                             </Tabs>
                         </AppBar>
-                        {value === 0 && <TabContainer>
+                        <TabContainer>
                             <UploadPanel classes={classes} imageCategory={this.state.imageCategory}
-                                         activeTabIndex={this.state.activeTabIndex} activeTab={this.state.activeTab}
+                                         activeTabIndex={activeTabIndex} activeTab={this.state.activeTab}
                                          onHandleUploadStatus={this.handleUploadStatus}
                             />
-                        </TabContainer>}
-                        {value === 1 && <TabContainer>Item Two</TabContainer>}
-                        {value === 2 && <TabContainer>Item Three</TabContainer>}
-                        {value === 3 && <TabContainer>Item Four</TabContainer>}
-                        {value === 4 && <TabContainer>Item Five</TabContainer>}
-                        {value === 5 && <TabContainer>Item Six</TabContainer>}
-                        {value === 6 && <TabContainer>Item Seven</TabContainer>}
+                        </TabContainer>
+
                     </div>
 
                 </Paper>
