@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-import withAuthorization from '../components/withAuthorization';
+import withAuthorization from '../../components/withAuthorization';
 
 const AccountPage = (props, {authUser}) =>
     <div>

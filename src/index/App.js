@@ -23,8 +23,9 @@ import Overview from '../screens/Overview';
 import Beginner from '../screens/Beginner';
 import Types from '../screens/Types';
 
-import SignIn from '../screens/SignIn';
-import Account from '../screens/Account';
+import SignIn from '../screens/auth/SignIn';
+import SignUp from '../screens/auth/SignUp';
+import Account from '../screens/auth/Account';
 //FontAwesome
 import {library} from '@fortawesome/fontawesome-svg-core'
 import {fab} from '@fortawesome/free-brands-svg-icons'
@@ -87,6 +88,7 @@ class App extends Component {
                         <Route exact path={routes.TYPES} component={() => <Types />}/>
 
                         <Route exact path={routes.SIGN_IN} component={() => <SignIn/>}/>
+                        <Route exact path={routes.SIGN_UP} component={() => <SignUp/>}/>
                         <Route exact path={routes.ACCOUNT} component={() => <Account />}/>
 
                     </MainContent>
