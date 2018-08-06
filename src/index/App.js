@@ -20,7 +20,9 @@ import withAuthentication from '../components/withAuthentication';
 import * as routes from '../constants/routes';
 import Navigation from '../components/Navigation';
 import Overview from '../screens/Overview';
-import Audio from '../screens/Audio';
+import Beginner from '../screens/Beginner';
+import Types from '../screens/Types';
+
 import SignIn from '../screens/SignIn';
 import Account from '../screens/Account';
 //FontAwesome
@@ -53,7 +55,6 @@ library.add(
 )
 
 
-
 class App extends Component {
     showSettings(event) {
         event.preventDefault();
@@ -73,7 +74,7 @@ class App extends Component {
                         <SidebarTitle>
                             Overview
                         </SidebarTitle>
-                      <Navigation/>
+                        <Navigation/>
                     </Sidebar>
                     <MainContent isOpen>
                         <LinkButton><FontAwesomeIcon
@@ -82,7 +83,8 @@ class App extends Component {
                             size="2x"
                         /></LinkButton>
                         <Route exact path={routes.OVERVIEW} component={() => <Overview />}/>
-                        <Route exact path={routes.AUDIO} component={() => <Audio />}/>
+                        <Route exact path={routes.BEGINNER} component={() => <Beginner />}/>
+                        <Route exact path={routes.TYPES} component={() => <Types />}/>
 
                         <Route exact path={routes.SIGN_IN} component={() => <SignIn/>}/>
                         <Route exact path={routes.ACCOUNT} component={() => <Account />}/>

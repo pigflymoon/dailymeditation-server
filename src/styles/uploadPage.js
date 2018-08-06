@@ -1,3 +1,8 @@
+import styled from 'styled-components';
+
+export const RightWrapper = styled.div`
+    padding:10px;
+ `;
 const drawerWidth = 240;
 export const uploadStyles = theme => ({
     root: {

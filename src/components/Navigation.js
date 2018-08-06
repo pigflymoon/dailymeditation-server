@@ -49,7 +49,15 @@ const NavigationAuth = (userAndRole) => {
                     fixedWidth={false}
                     size="1x"
                 />
-                <StyledLink to={routes.AUDIO}>Audio</StyledLink>
+                <StyledLink to={routes.BEGINNER}>Upload For Beginner</StyledLink>
+            </SideNavLi>
+            <SideNavLi>
+                <FontAwesomeIcon
+                    icon={['fas', 'file-audio']}
+                    fixedWidth={false}
+                    size="1x"
+                />
+                <StyledLink to={routes.TYPES}>Upload For All types</StyledLink>
             </SideNavLi>
             <SideNavLi>
                 <FontAwesomeIcon
