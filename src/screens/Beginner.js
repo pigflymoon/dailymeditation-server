@@ -80,12 +80,12 @@ class Beginner extends Component {
                                 <Tab label="Bring Meditation into Your Every Day Life" icon={<ThumbUp />}/>
                             </Tabs>
                         </AppBar>
-                        {value === 0 &&
+                        {value === 0 && <TabContainer>
                             <UploadPanel classes={classes} imageCategory={this.state.imageCategory}
                                          activeTabIndex={this.state.activeTabIndex} activeTab={this.state.activeTab}
                                          onHandleUploadStatus={this.handleUploadStatus}
                             />
-                        }
+                        </TabContainer>}
                         {value === 1 && <TabContainer>Item Two</TabContainer>}
                         {value === 2 && <TabContainer>Item Three</TabContainer>}
                         {value === 3 && <TabContainer>Item Four</TabContainer>}
