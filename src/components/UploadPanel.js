@@ -4,8 +4,6 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import AddIcon from '@material-ui/icons/Add';
-// import FileUpload from 'material-ui-icons/FileUpload';
-// import AddToPhotos from 'material-ui-icons/AddToPhotos';
 import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
@@ -55,8 +53,7 @@ export default class UploadPanel extends Component {
                     multiple
                     type="file"
                 />
-
-                <label htmlFor="outlined-button-file">
+                <label htmlFor="flat-button-file">
                     <Button variant="fab" component="span" color="primary" aria-label="Add" className={classes.button}>
                         <AddIcon />
                     </Button>
