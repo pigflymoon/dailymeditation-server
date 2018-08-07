@@ -2,8 +2,12 @@ import {storage} from './firebase';
 
 //User API
 
-export const getPaidImages = () =>
-    storage.ref().child('paidImages');
+export const getAudioByBeginner = (category)=>{
+    console.log('category',category)
+    return storage.ref().child(`${category}`)
+}
+export const getAudioByCategoryAndType = (category,audioType)=>{
+    console.log('audioType',audioType,'category',category)
+    return storage.ref().child(`${category}/${audioType}`)
+}
 
-export const getDefaultImages = () =>
-    storage.ref().child('freeImages');

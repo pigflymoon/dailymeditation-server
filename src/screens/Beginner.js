@@ -47,6 +47,8 @@ class Beginner extends Component {
         super(props);
         this.state = {
             activeTabIndex: 0,
+            audioCategory: 'beginner',
+
         };
     }
 
@@ -60,6 +62,11 @@ class Beginner extends Component {
             }
         }
     };
+
+    handleUploadStatus = (status) => {
+        this.setState({open: status.open, uploading: status.uploading, error: status.error});
+    }
+
 
     render() {
         const {classes} = this.props;
@@ -87,7 +94,7 @@ class Beginner extends Component {
                             </Tabs>
                         </AppBar>
                         <TabContainer>
-                            <UploadPanel classes={classes} imageCategory={this.state.imageCategory}
+                            <UploadPanel classes={classes} audioCategory={this.state.audioCategory}
                                          activeTabIndex={activeTabIndex} activeTab={this.state.activeTab}
                                          onHandleUploadStatus={this.handleUploadStatus}
                             />

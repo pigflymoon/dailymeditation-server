@@ -16,16 +16,6 @@ export const doCreateUser = (id, username, email) => {
             } else {
                 console.log('create user successfully!!')
                 updateUserCount();
-
-
-                // db.ref('/user-count').once('value').then(function(snapshot) {
-                //     console.log('snapshot is ',snapshot.val())
-                //     });
-
-
-                // Data saved successfully!
-                // var user = db.ref().child('user-count');
-
             }
         })
     )
@@ -39,7 +29,15 @@ export const updateUserCount = () => db.ref('/user-count').once('value').then(fu
     db.ref('/user-count').set({number})
 })
 
+export const getAudioRefByTCategoryAndType = (category, audioType) => {
+    console.log('db audioType is ', audioType)
+    return db.ref().child(`${category}/${audioType}`);
+}
 
+export const getUpdatedAudioRefByTCategoryAndType = (category) => {
+    console.log('db audioType is ', category)
+    return db.ref().child(`updated${category}`);
+}
 export const onceGetUsers = () =>
     db.ref('users').once('value');
 
