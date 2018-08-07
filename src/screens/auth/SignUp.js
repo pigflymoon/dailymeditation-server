@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 import * as routes from '../../constants/routes';
 import {auth, db} from '../../firebase/index';
+import {db as firebase} from '../../firebase/firebase';
 
 const SignUpPage = ({history}) =>
     <div>
@@ -41,24 +42,24 @@ class SignUpForm extends Component {
             history,
         } = this.props;
 
+        var self = this;
         auth.doCreateUserWithEmailAndPassword(email, passwordOne)
             .then(userCredential => {
 
                 // Create a user in your own accessible Firebase Database too
                 db.doCreateUser(userCredential.user.uid, username, email)
                     .then(() => {
-                    //Can only update a mounted or mounting component. This usually means you called setState
-                        // replaceState, or forceUpdate on an unmounted component.
-                        this.setState(() => ({ ...INITIAL_STATE }));
-                        // history.push(routes.PAID_IMAGES);
+                        // history.push(routes.ACCOUNT);
+                        console.log('create user')
+                        db.updateUserCount();
                     })
                     .catch(error => {
-                        this.setState(byPropKey('error', error));
+                        self.setState(byPropKey('error', error));
                     });
 
             })
             .catch(error => {
-                this.setState(byPropKey('error', error));
+                self.setState(byPropKey('error', error));
             });
 
         event.preventDefault();
