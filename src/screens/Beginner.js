@@ -48,6 +48,7 @@ class Beginner extends Component {
         this.state = {
             activeTabIndex: 0,
             audioCategory: 'beginner',
+            activeTab: 'beingPresent',
 
         };
     }

@@ -51,10 +51,10 @@ export default class UploadPanel extends Component {
     }
 
 
-    handleAddImage = (e, imageType) => {
+    handleAddImage = (e, audioType) => {
         e.preventDefault();
-        var uploadImageType = imageType;
-        console.log('imageType is for ', uploadImageType);
+        var uploadAudioType = audioType;
+        console.log('audioType is for ', uploadAudioType);
         var choseFiles = e.target.files;
 
         var files = [];// imagePreviewUrls = [];
@@ -85,7 +85,7 @@ export default class UploadPanel extends Component {
         this.setState({choseFiles: filesData});
     }
 
-    handleUpload = (e, category, imageType) => {
+    handleUpload = (e, category, audioType) => {
         e.preventDefault();
         console.log('choseFiles length', this.state.choseFiles)
         if (!(this.state.choseFiles) || this.state.choseFiles.length < 1) {
@@ -97,20 +97,21 @@ export default class UploadPanel extends Component {
             this.setState({uploading: true});
             this.props.onHandleUploadStatus({open: false, uploading: true, error: false});
 
-            this.filesUpload(this.state.choseFiles, category, imageType);
+            this.filesUpload(this.state.choseFiles, category, audioType);
         }
     }
 
-    getDownloadUrl = (uploadImagesRef, dbUpdatedImagesRef, snapshot) => {//db,
+    getDownloadUrl = (uploadAudiosRef, dbUpdatedAudiosRef, snapshot) => {//db,
+        console.log('snapshot is ********',snapshot)
         if (snapshot.downloadURL !== null) {
             var downloadUrl = snapshot.downloadURL;
-            var newImageKey = uploadImagesRef.push().key;
+            var newAudioKey = uploadAudiosRef.push().key;
             var saveFilename = snapshot.metadata.name;
-            uploadImagesRef.child(newImageKey + '_audio').set({
+            uploadAudiosRef.child(newAudioKey + '_audio').set({
                 downloadUrl: downloadUrl,
                 name: saveFilename
             });
-            dbUpdatedImagesRef.child(newImageKey + '_audio').set({
+            dbUpdatedAudiosRef.child(newAudioKey + '_audio').set({
                 downloadUrl: downloadUrl,
                 name: saveFilename
             });
@@ -119,15 +120,15 @@ export default class UploadPanel extends Component {
         }
     }
 
-    fileUpload = (file, imagesRef, uploadImagesRef, dbUpdatedImagesRef) => {//file,storage,db
+    fileUpload = (file, audiosRef, uploadAudiosRef, dbUpdatedAudiosRef) => {//file,storage,db
         var filename = (file.name).match(/^.*?([^\\/.]*)[^\\/]*$/)[1];
 
-        var task = saveAudio(file, filename, imagesRef)
+        var task = saveAudio(file, filename, audiosRef)
         var self = this;
 
         task.then(function (snapshot) {
             console.log('snapshot is ', snapshot)
-            self.getDownloadUrl(uploadImagesRef, dbUpdatedImagesRef, snapshot);//category-type-db, updated-db
+            self.getDownloadUrl(uploadAudiosRef, dbUpdatedAudiosRef, snapshot);//category-type-db, updated-db
 
         })
             .then(function () {
@@ -148,14 +149,15 @@ export default class UploadPanel extends Component {
             });
     }
 
-    filesUpload = (files, category, imageType) => {
-        var imagesRef = storage.getAudioByBeginner(category, imageType);
-        var uploadImagesRef = db.getAudioRefByTCategoryAndType(category, imageType);
-        var dbUpdatedImagesRef = db.getUpdatedAudioRefByTCategoryAndType(category);
+    filesUpload = (files, category, audioType) => {
+        console.log('category is ', category, 'audioType is', audioType)
+        var audiosRef = storage.getAudioByCategoryAndType(category, audioType);
+        var uploadAudiosRef = db.getAudioRefByTCategoryAndType(category, audioType);
+        var dbUpdatedAudiosRef = db.getUpdatedAudioRefByTCategoryAndType(category);
 
         if (files) {
             for (let file of files) {
-                this.fileUpload(file, imagesRef, uploadImagesRef, dbUpdatedImagesRef);//every file
+                this.fileUpload(file, audiosRef, uploadAudiosRef, dbUpdatedAudiosRef);//every file
             }
         } else {
             console.log('no file')
@@ -174,7 +176,7 @@ export default class UploadPanel extends Component {
                 </div>
 
                 <input
-                    accept="image/*"
+                    accept="audio/*"
                     className={classes.input}
                     id="flat-button-file"
                     multiple
