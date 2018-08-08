@@ -57,7 +57,7 @@ const NavigationAuth = (userAndRole) => {
                     fixedWidth={false}
                     size="1x"
                 />
-                <StyledLink to={routes.TYPES}>Upload For All types</StyledLink>
+                <StyledLink to={routes.MEDITATIONCATEGORY}>Upload For Meditation Category</StyledLink>
             </SideNavLi>
             <SideNavLi>
                 <FontAwesomeIcon

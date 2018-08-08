@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
     RightWrapper,
     uploadStyles,
-}from '../styles/uploadPage';
+}from '../../styles/uploadPage';
 
 import {withStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -16,20 +16,21 @@ import Tab from '@material-ui/core/Tab';
 import List from '@material-ui/core/List';
 import Hidden from '@material-ui/core/Hidden';
 
-import AlarmIcon from '@material-ui/icons/Alarm';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import SentimentDissatisfiedIcon from '@material-ui/icons/SentimentDissatisfied';
+import MoodBadIcon from '@material-ui/icons/MoodBad';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
-import VisibilityIcon from '@material-ui/icons/Visibility';
+import TimelapseIcon from '@material-ui/icons/Timelapse';
 import SentimentSatisfiedIcon from '@material-ui/icons/SentimentSatisfied';
-import RoomIcon from '@material-ui/icons/Room';
-import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
+import WbSunnyIcon from '@material-ui/icons/WbSunny';
+import FilterDramaIcon from '@material-ui/icons/FilterDrama';
+import MoodIcon from '@material-ui/icons/Mood';
+
 import Typography from '@material-ui/core/Typography';
 
-import UploadPanel from '../components/UploadPanel';
-import withRoot from '../components/withRoot';
+import UploadPanel from '../../components/UploadPanel';
+import withRoot from '../../components/withRoot';
+import withAuthorization from '../../components/withAuthorization';
 
-
-import withAuthorization from '../components/withAuthorization';
 function TabContainer(props) {
     return (
         <Typography component="div" style={{padding: 8 * 3}}>
@@ -42,7 +43,7 @@ TabContainer.propTypes = {
     children: PropTypes.node.isRequired,
 };
 
-class Beginner extends Component {
+class MeditationCategory extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -54,7 +55,7 @@ class Beginner extends Component {
     }
 
     handleChange = (event, value) => {
-        let tabs = ["beingPresent", "howToBreathe", "bodyScan", "observeYourThoughts", "makeSpaceForYourEmotions", "setMeditationGoals", "meditateEveryDay"];
+        let tabs = ["anxiety", "stress", "focus", "sleep", "emotions", "healing", "lettingGo", "innerPeace"];
         for (let tab of tabs) {
             let tabValue = tabs[value];
             if (tab == tabValue) {
@@ -85,13 +86,15 @@ class Beginner extends Component {
                                 indicatorColor="primary"
                                 textColor="primary"
                             >
-                                <Tab label="Being Present" icon={<AlarmIcon />}/>
-                                <Tab label="How to Breathe" icon={<FavoriteIcon />}/>
-                                <Tab label="Body Scan" icon={<PersonPinIcon />}/>
-                                <Tab label="Observe your Thoughts" icon={<VisibilityIcon />}/>
-                                <Tab label="Make Space for your emotions" icon={<SentimentSatisfiedIcon />}/>
-                                <Tab label="Set Meditation Goals" icon={<RoomIcon />}/>
-                                <Tab label="Bring Meditation into Your Every Day Life" icon={<CalendarTodayIcon />}/>
+                                <Tab label="Anxiety" icon={<SentimentDissatisfiedIcon />}/>
+                                <Tab label="Stress" icon={<MoodBadIcon />}/>
+                                <Tab label="Focus & Attention" icon={<PersonPinIcon />}/>
+                                <Tab label="Sleep" icon={<TimelapseIcon />}/>
+                                <Tab label="Emotions" icon={<SentimentSatisfiedIcon />}/>
+                                <Tab label="Healing" icon={<WbSunnyIcon />}/>
+                                <Tab label="Letting Go" icon={<FilterDramaIcon />}/>
+                                <Tab label="Inner Peace" icon={<MoodIcon />}/>
+
                             </Tabs>
                         </AppBar>
                         <TabContainer>
@@ -111,10 +114,10 @@ class Beginner extends Component {
 
     }
 }
-Beginner.contextTypes = {
+MeditationCategory.contextTypes = {
     authUser: PropTypes.object,
 };
 const authConditon = (authUser) => !!authUser;
-Beginner = withRoot(withStyles(uploadStyles)(Beginner));
+MeditationCategory = withRoot(withStyles(uploadStyles)(MeditationCategory));
 
-export default withAuthorization(authConditon)(Beginner);
+export default withAuthorization(authConditon)(MeditationCategory);
