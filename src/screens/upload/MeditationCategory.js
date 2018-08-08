@@ -48,8 +48,8 @@ class MeditationCategory extends Component {
         super(props);
         this.state = {
             activeTabIndex: 0,
-            audioCategory: 'beginner',
-            activeTab: 'beingPresent',
+            audioCategory: 'meditationCategory',
+            activeTab: 'anxiety',
 
         };
     }
