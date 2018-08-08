@@ -103,21 +103,27 @@ export default class UploadPanel extends Component {
 
     getDownloadUrl = (uploadAudiosRef, dbUpdatedAudiosRef, snapshot) => {//db,
         console.log('snapshot is ********',snapshot)
-        if (snapshot.downloadURL !== null) {
-            var downloadUrl = snapshot.downloadURL;
-            var newAudioKey = uploadAudiosRef.push().key;
-            var saveFilename = snapshot.metadata.name;
-            uploadAudiosRef.child(newAudioKey + '_audio').set({
-                downloadUrl: downloadUrl,
-                name: saveFilename
-            });
-            dbUpdatedAudiosRef.child(newAudioKey + '_audio').set({
-                downloadUrl: downloadUrl,
-                name: saveFilename
-            });
-        } else {
-            this.setState({uploading: false, uploadStatus: 'Download url is not ready!'});
-        }
+        snapshot.ref.getDownloadURL().then(function(downloadURL) {
+            console.log('File available at', downloadURL);
+            if (downloadURL !== null) {
+                var downloadUrl = downloadURL;
+                var newAudioKey = uploadAudiosRef.push().key;
+                console.log('newAudioKey', newAudioKey);
+
+                var saveFilename = snapshot.metadata.name;
+                uploadAudiosRef.child(newAudioKey + '_audio').set({
+                    downloadUrl: downloadUrl,
+                    name: saveFilename
+                });
+                dbUpdatedAudiosRef.child(newAudioKey + '_audio').set({
+                    downloadUrl: downloadUrl,
+                    name: saveFilename
+                });
+            } else {
+                this.setState({uploading: false, uploadStatus: 'Download url is not ready!'});
+            }
+        });
+
     }
 
     fileUpload = (file, audiosRef, uploadAudiosRef, dbUpdatedAudiosRef) => {//file,storage,db
