@@ -4,6 +4,11 @@ module.exports = {
         "compressible": false,
         "extensions": ["mp3", "Mp3"]
     },
+    "audio/wma":{
+        "source": "iana",
+        "compressible": false,
+        "extensions": ["wma"]
+    },
     "audio/mpeg": {
         "source": "iana",
         "compressible": false,

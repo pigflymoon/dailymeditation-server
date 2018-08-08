@@ -16,13 +16,13 @@ import Tab from '@material-ui/core/Tab';
 import List from '@material-ui/core/List';
 import Hidden from '@material-ui/core/Hidden';
 
-import PhoneIcon from '@material-ui/icons/Phone';
+import AlarmIcon from '@material-ui/icons/Alarm';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import PersonPinIcon from '@material-ui/icons/PersonPin';
-import HelpIcon from '@material-ui/icons/Help';
-import ShoppingBasket from '@material-ui/icons/ShoppingBasket';
-import ThumbDown from '@material-ui/icons/ThumbDown';
-import ThumbUp from '@material-ui/icons/ThumbUp';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import SentimentSatisfiedIcon from '@material-ui/icons/SentimentSatisfied';
+import RoomIcon from '@material-ui/icons/Room';
+import CalendarTodayIcon from '@material-ui/icons/CalendarToday';
 import Typography from '@material-ui/core/Typography';
 
 import UploadPanel from '../components/UploadPanel';
@@ -85,13 +85,13 @@ class Beginner extends Component {
                                 indicatorColor="primary"
                                 textColor="primary"
                             >
-                                <Tab label="Being Present" icon={<PhoneIcon />}/>
+                                <Tab label="Being Present" icon={<AlarmIcon />}/>
                                 <Tab label="How to Breathe" icon={<FavoriteIcon />}/>
                                 <Tab label="Body Scan" icon={<PersonPinIcon />}/>
-                                <Tab label="Observe your Thoughts" icon={<HelpIcon />}/>
-                                <Tab label="Make Space for your emotions" icon={<ShoppingBasket />}/>
-                                <Tab label="Set Meditation Goals" icon={<ThumbDown />}/>
-                                <Tab label="Bring Meditation into Your Every Day Life" icon={<ThumbUp />}/>
+                                <Tab label="Observe your Thoughts" icon={<VisibilityIcon />}/>
+                                <Tab label="Make Space for your emotions" icon={<SentimentSatisfiedIcon />}/>
+                                <Tab label="Set Meditation Goals" icon={<RoomIcon />}/>
+                                <Tab label="Bring Meditation into Your Every Day Life" icon={<CalendarTodayIcon />}/>
                             </Tabs>
                         </AppBar>
                         <TabContainer>
