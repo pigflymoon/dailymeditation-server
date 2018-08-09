@@ -181,7 +181,7 @@ export default class UploadPanel extends Component {
             });
     }
 
-    imagesUpload = (files, imageCategory,audioCategory, audioType) => {
+    imagesUpload = (files, imageCategory, audioCategory, audioType) => {
         console.log('images upload category is ', imageCategory, 'audioType is', audioType)
         var imagesRef = storage.getImageByCategoryAndType(imageCategory, audioType);//audioType is same as imageType
         //category should be audio
@@ -215,7 +215,7 @@ export default class UploadPanel extends Component {
         }
     }
 
-    getDownloadUrl = (uploadAudiosRef, dbUpdatedAudiosRef, snapshot) => {//db,
+    getDownloadUrl = (uploadAudiosRef, dbUpdatedAudiosRef, snapshot, audioType) => {//db,
         console.log('snapshot is ********', snapshot)
         var self = this;
         snapshot.ref.getDownloadURL().then(function (downloadURL) {
@@ -228,7 +228,8 @@ export default class UploadPanel extends Component {
                 var saveFilename = snapshot.metadata.name;
                 uploadAudiosRef.child(newAudioKey + '_audio').set({
                     downloadUrl: downloadUrl,
-                    name: saveFilename
+                    name: saveFilename,
+                    audioType: audioType
                 });
                 dbUpdatedAudiosRef.child(newAudioKey + '_audio').set({
                     downloadUrl: downloadUrl,
@@ -244,7 +245,7 @@ export default class UploadPanel extends Component {
 
     }
 
-    fileUpload = (file, audiosRef, uploadAudiosRef, dbUpdatedAudiosRef) => {//file,storage,db
+    fileUpload = (file, audiosRef, uploadAudiosRef, dbUpdatedAudiosRef, audioType) => {//file,storage,db
         var filename = (file.name).match(/^.*?([^\\/.]*)[^\\/]*$/)[1];
 
         var task = saveAudio(file, filename, audiosRef)
@@ -252,7 +253,7 @@ export default class UploadPanel extends Component {
 
         task.then(function (snapshot) {
             console.log('snapshot is ', snapshot)
-            self.getDownloadUrl(uploadAudiosRef, dbUpdatedAudiosRef, snapshot);//category-type-db, updated-db
+            self.getDownloadUrl(uploadAudiosRef, dbUpdatedAudiosRef, snapshot, audioType);//category-type-db, updated-db
 
         })
             .then(function () {
@@ -281,7 +282,7 @@ export default class UploadPanel extends Component {
 
         if (files) {
             for (let file of files) {
-                this.fileUpload(file, audiosRef, uploadAudiosRef, dbUpdatedAudiosRef);//every file
+                this.fileUpload(file, audiosRef, uploadAudiosRef, dbUpdatedAudiosRef, audioType);//every file
             }
         } else {
             console.log('no file')
