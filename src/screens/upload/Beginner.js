@@ -47,6 +47,8 @@ class Beginner extends Component {
         this.state = {
             activeTabIndex: 0,
             audioCategory: 'beginner',
+            imageCategory: 'beginnerImage',
+
             activeTab: 'beingPresent',
 
         };
@@ -94,7 +96,7 @@ class Beginner extends Component {
                             </Tabs>
                         </AppBar>
                         <TabContainer>
-                            <UploadPanel classes={classes} audioCategory={this.state.audioCategory}
+                            <UploadPanel classes={classes} imageCategory={this.state.imageCategory} audioCategory={this.state.audioCategory}
                                          activeTabIndex={activeTabIndex} activeTab={this.state.activeTab}
                                          onHandleUploadStatus={this.handleUploadStatus}
                             />

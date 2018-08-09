@@ -11,3 +11,9 @@ export const getAudioByCategoryAndType = (category,audioType)=>{
     return storage.ref().child(`${category}/${audioType}`)
 }
 
+export const getImageByCategoryAndType = (category,imageType)=>{
+    console.log('storage audioType',imageType,'category',category)
+    return storage.ref().child(`${category}/${imageType}`)
+}
+
+

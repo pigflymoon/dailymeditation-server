@@ -1,4 +1,4 @@
-module.exports = {
+export const audioMimes = {
     "audio/mp3": {
         "source": "iana",
         "compressible": false,
@@ -23,5 +23,31 @@ module.exports = {
         "source": "iana",
         "compressible": false,
         "extensions": ["Wav"]
+    },
+};
+export const imageMimes = {
+    "image/gif": {
+        "source": "iana",
+        "compressible": false,
+        "extensions": ["gif"]
+    },
+    "image/jpeg": {
+        "source": "iana",
+        "compressible": false,
+        "extensions": ["jpeg","jpg","jpe"]
+    },
+    "image/png": {
+        "source": "iana",
+        "compressible": false,
+        "extensions": ["png"]
+    },
+    "image/svg+xml": {
+        "source": "iana",
+        "compressible": true,
+        "extensions": ["svg","svgz"]
+    },
+    "image/webp": {
+        "source": "apache",
+        "extensions": ["webp"]
     },
 };

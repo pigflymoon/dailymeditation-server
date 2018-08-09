@@ -7,7 +7,7 @@ import AddIcon from '@material-ui/icons/Add';
 import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
-import {saveAudio} from '../utils/firebaseApi';
+import {saveAudio, saveImage} from '../utils/firebaseApi';
 
 
 export default class UploadPanel extends Component {
@@ -25,10 +25,13 @@ export default class UploadPanel extends Component {
             open: false,
             activeTabIndex: this.props.activeTabIndex,
             audioCategory: this.props.audioCategory,
+            imageCategory: this.props.imageCategory,
             activeTab: this.props.activeTab,
             // mobileOpen: false,
             choseFiles: null,
+            choseImageFiles: null,
             uploadStatus: 'Please choose file to upload',
+            newAudioKey: '',
         };
 
     }
@@ -44,14 +47,37 @@ export default class UploadPanel extends Component {
             // imagePreviewUrls: [],
             // uploadStatus: 'Please choose file to upload',
             audioCategory: nextProps.audioCategory,
+            imageCategory: nextProps.imageCategory,
             activeTab: nextProps.activeTab,
             activeTabIndex: nextProps.activeTabIndex
         });
 
     }
 
+    handleAddImage = (e, imageType) => {
+        e.preventDefault();
+        var uploadImageType = imageType;
+        console.log('audioType is for ', uploadImageType);
+        var choseFiles = e.target.files;
 
-    handleAddImage = (e, audioType) => {
+        var files = [];// imagePreviewUrls = [];
+        for (var file of choseFiles) {
+            files.push(file);
+            let reader = new FileReader();
+            reader.onloadend = () => {
+                // imagePreviewUrls.push(reader.result)
+                this.setState({
+                    file: file,
+                });
+            }
+            reader.readAsDataURL(file)
+        }
+
+        this.setState({choseImageFiles: files});
+        e.target.value = '';
+    }
+
+    handleAddAudio = (e, audioType) => {
         e.preventDefault();
         var uploadAudioType = audioType;
         console.log('audioType is for ', uploadAudioType);
@@ -85,7 +111,95 @@ export default class UploadPanel extends Component {
         this.setState({choseFiles: filesData});
     }
 
-    handleUpload = (e, category, audioType) => {
+    //upload image
+    getImageDownloadUrl = (uploadAudiosRef, snapshot) => {//db,
+        console.log('snapshot is ********', snapshot)
+        var self = this;
+        snapshot.ref.getDownloadURL().then(function (downloadURL) {
+            console.log('Image File available at', downloadURL);
+            if (downloadURL !== null) {
+                var downloadUrl = downloadURL;
+                // var newAudioKey = uploadImagesRef.push().key;
+                // console.log('newAudioKey', newAudioKey);
+
+                uploadAudiosRef.child(self.state.newAudioKey).update({
+                    imageDownloadUrl: downloadUrl,
+                });
+
+            } else {
+                this.setState({uploading: false, uploadStatus: 'Image Download url is not ready!'});
+            }
+        });
+
+    }
+
+    handleUploadImage = (e, category, audioCategory, imageType) => {
+        e.preventDefault();
+        console.log('choseFiles length', this.state.choseImageFiles)
+        if (!(this.state.choseImageFiles) || this.state.choseImageFiles.length < 1) {
+            this.setState({uploading: false, choseImageFiles: []});
+            // this.props.onHandleDialog(true);
+            this.props.onHandleUploadStatus({open: true, uploading: false, error: 'Please choose file'});
+
+        } else {
+            this.setState({uploading: true});
+            this.props.onHandleUploadStatus({open: false, uploading: true, error: false});
+
+            this.imagesUpload(this.state.choseImageFiles, category, audioCategory, imageType);
+        }
+    }
+
+
+    imageUpload = (file, imagesRef, uploadAudiosRef) => {//file,storage,db
+        var filename = (file.name).match(/^.*?([^\\/.]*)[^\\/]*$/)[1];
+        console.log('uploadAudiosRef is ', uploadAudiosRef)
+
+        var task = saveImage(file, filename, imagesRef)
+        var self = this;
+
+        task.then(function (snapshot) {
+
+            console.log('snapshot is ', snapshot)
+            self.getImageDownloadUrl(uploadAudiosRef, snapshot);//category-type-db, updated-db
+
+        })
+            .then(function () {
+                self.setState({
+                    uploading: false,
+                    uploadStatus: 'Upload is Finished! And save to the database ',
+                    choseImageFiles: []
+                });
+                self.props.onHandleUploadStatus({open: true, uploading: false, error: false});
+
+            })
+            .catch(function (error) {
+                console.error('error is', error);
+                self.setState({uploading: false, choseImageFiles: []});
+                self.props.onHandleUploadStatus({open: true, uploading: false, error: 'error'});
+
+
+            });
+    }
+
+    imagesUpload = (files, imageCategory,audioCategory, audioType) => {
+        console.log('images upload category is ', imageCategory, 'audioType is', audioType)
+        var imagesRef = storage.getImageByCategoryAndType(imageCategory, audioType);//audioType is same as imageType
+        //category should be audio
+        var uploadAudiosRef = db.getAudioRefByTCategoryAndType(audioCategory, audioType);
+        // var dbUpdatedAudiosRef = db.getUpdatedAudioRefByTCategoryAndType(category);
+
+        if (files) {
+            for (let file of files) {
+                this.imageUpload(file, imagesRef, uploadAudiosRef);//every file
+            }
+        } else {
+            console.log('no file')
+        }
+    }
+
+
+    //Upload Audio
+    handleUploadAudio = (e, category, audioType) => {
         e.preventDefault();
         console.log('choseFiles length', this.state.choseFiles)
         if (!(this.state.choseFiles) || this.state.choseFiles.length < 1) {
@@ -102,8 +216,9 @@ export default class UploadPanel extends Component {
     }
 
     getDownloadUrl = (uploadAudiosRef, dbUpdatedAudiosRef, snapshot) => {//db,
-        console.log('snapshot is ********',snapshot)
-        snapshot.ref.getDownloadURL().then(function(downloadURL) {
+        console.log('snapshot is ********', snapshot)
+        var self = this;
+        snapshot.ref.getDownloadURL().then(function (downloadURL) {
             console.log('File available at', downloadURL);
             if (downloadURL !== null) {
                 var downloadUrl = downloadURL;
@@ -119,8 +234,11 @@ export default class UploadPanel extends Component {
                     downloadUrl: downloadUrl,
                     name: saveFilename
                 });
+                self.setState({
+                    newAudioKey: newAudioKey + '_audio'
+                })
             } else {
-                this.setState({uploading: false, uploadStatus: 'Download url is not ready!'});
+                self.setState({uploading: false, uploadStatus: 'Download url is not ready!'});
             }
         });
 
@@ -156,7 +274,7 @@ export default class UploadPanel extends Component {
     }
 
     filesUpload = (files, category, audioType) => {
-        console.log('category is ', category, 'audioType is', audioType)
+        console.log('audio category is ', category, 'audioType is', audioType)
         var audiosRef = storage.getAudioByCategoryAndType(category, audioType);
         var uploadAudiosRef = db.getAudioRefByTCategoryAndType(category, audioType);
         var dbUpdatedAudiosRef = db.getUpdatedAudioRefByTCategoryAndType(category);
@@ -187,16 +305,36 @@ export default class UploadPanel extends Component {
                     id="flat-button-file"
                     multiple
                     type="file"
-                    onChange={(e) => this.handleAddImage(e, this.state.activeTab)}
+                    onChange={(e) => this.handleAddAudio(e, this.state.activeTab)}
                 />
                 <label htmlFor="flat-button-file">
                     <Button variant="fab" component="span" color="primary" aria-label="Add" className={classes.button}>
                         <AddIcon />
                     </Button>
                 </label>
-                <Button onClick={(e) => this.handleUpload(e, this.state.audioCategory, this.state.activeTab)}
+                <Button onClick={(e) => this.handleUploadAudio(e, this.state.audioCategory, this.state.activeTab)}
                         variant="contained" href="#contained-buttons" className={classes.button}>
-                    Upload for {this.state.activeTab}
+                    Upload Audio
+                </Button>
+
+
+                <input
+                    accept="images/*"
+                    className={classes.input}
+                    id="flat-button-imagefile"
+                    multiple
+                    type="file"
+                    onChange={(e) => this.handleAddImage(e, this.state.activeTab)}
+                />
+                <label htmlFor="flat-button-imagefile">
+                    <Button variant="fab" component="span" color="primary" aria-label="Add" className={classes.button}>
+                        <AddIcon />
+                    </Button>
+                </label>
+                <Button
+                    onClick={(e) => this.handleUploadImage(e, this.state.imageCategory, this.state.audioCategory, this.state.activeTab)}
+                    variant="contained" href="#contained-buttons" className={classes.button}>
+                    Upload Cover Image
                 </Button>
 
                 <div className={classes.filesWrapper}>
