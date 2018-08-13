@@ -112,7 +112,7 @@ export default class UploadPanel extends Component {
     }
 
     //upload image
-    getImageDownloadUrl = (uploadAudiosRef, snapshot) => {//db,
+    getImageDownloadUrl = (uploadAudiosRef, dbUpdatedAudiosRef, snapshot) => {//db,
         console.log('snapshot is ********', snapshot)
         var self = this;
         snapshot.ref.getDownloadURL().then(function (downloadURL) {
@@ -125,6 +125,10 @@ export default class UploadPanel extends Component {
                 uploadAudiosRef.child(self.state.newAudioKey).update({
                     imageDownloadUrl: downloadUrl,
                 });
+                dbUpdatedAudiosRef.child(self.state.newAudioKey).update({
+                    imageDownloadUrl: downloadUrl,
+
+                })
 
             } else {
                 this.setState({uploading: false, uploadStatus: 'Image Download url is not ready!'});
@@ -133,7 +137,7 @@ export default class UploadPanel extends Component {
 
     }
 
-    handleUploadImage = (e, category, audioCategory, imageType) => {
+    handleUploadImage = (e, category, audioCategory, audioTyoe) => {
         e.preventDefault();
         console.log('choseFiles length', this.state.choseImageFiles)
         if (!(this.state.choseImageFiles) || this.state.choseImageFiles.length < 1) {
@@ -145,12 +149,12 @@ export default class UploadPanel extends Component {
             this.setState({uploading: true});
             this.props.onHandleUploadStatus({open: false, uploading: true, error: false});
 
-            this.imagesUpload(this.state.choseImageFiles, category, audioCategory, imageType);
+            this.imagesUpload(this.state.choseImageFiles, category, audioCategory, audioTyoe);
         }
     }
 
 
-    imageUpload = (file, imagesRef, uploadAudiosRef) => {//file,storage,db
+    imageUpload = (file, imagesRef, uploadAudiosRef, dbUpdatedAudiosRef) => {//file,storage,db
         var filename = (file.name).match(/^.*?([^\\/.]*)[^\\/]*$/)[1];
         console.log('uploadAudiosRef is ', uploadAudiosRef)
 
@@ -160,7 +164,7 @@ export default class UploadPanel extends Component {
         task.then(function (snapshot) {
 
             console.log('snapshot is ', snapshot)
-            self.getImageDownloadUrl(uploadAudiosRef, snapshot);//category-type-db, updated-db
+            self.getImageDownloadUrl(uploadAudiosRef, dbUpdatedAudiosRef, snapshot);//category-type-db, updated-db
 
         })
             .then(function () {
@@ -186,11 +190,11 @@ export default class UploadPanel extends Component {
         var imagesRef = storage.getImageByCategoryAndType(imageCategory, audioType);//audioType is same as imageType
         //category should be audio
         var uploadAudiosRef = db.getAudioRefByTCategoryAndType(audioCategory, audioType);
-        // var dbUpdatedAudiosRef = db.getUpdatedAudioRefByTCategoryAndType(category);
+        var dbUpdatedAudiosRef = db.getUpdatedAudioRefByTCategoryAndType(imageCategory);
 
         if (files) {
             for (let file of files) {
-                this.imageUpload(file, imagesRef, uploadAudiosRef);//every file
+                this.imageUpload(file, imagesRef, uploadAudiosRef, dbUpdatedAudiosRef);//every file
             }
         } else {
             console.log('no file')
@@ -215,7 +219,7 @@ export default class UploadPanel extends Component {
         }
     }
 
-    getDownloadUrl = (uploadAudiosRef, dbUpdatedAudiosRef, snapshot, audioType) => {//db,
+    getDownloadUrl = (uploadAudiosRef, dbUpdatedAudiosRef, snapshot, audioType, category) => {//db,
         console.log('snapshot is ********', snapshot)
         var self = this;
         snapshot.ref.getDownloadURL().then(function (downloadURL) {
@@ -233,7 +237,8 @@ export default class UploadPanel extends Component {
                 });
                 dbUpdatedAudiosRef.child(newAudioKey + '_audio').set({
                     downloadUrl: downloadUrl,
-                    name: saveFilename
+                    name: saveFilename,
+                    audioType: audioType
                 });
                 self.setState({
                     newAudioKey: newAudioKey + '_audio'
@@ -245,7 +250,7 @@ export default class UploadPanel extends Component {
 
     }
 
-    fileUpload = (file, audiosRef, uploadAudiosRef, dbUpdatedAudiosRef, audioType) => {//file,storage,db
+    fileUpload = (file, audiosRef, uploadAudiosRef, dbUpdatedAudiosRef, audioType, category) => {//file,storage,db
         var filename = (file.name).match(/^.*?([^\\/.]*)[^\\/]*$/)[1];
 
         var task = saveAudio(file, filename, audiosRef)
@@ -253,7 +258,7 @@ export default class UploadPanel extends Component {
 
         task.then(function (snapshot) {
             console.log('snapshot is ', snapshot)
-            self.getDownloadUrl(uploadAudiosRef, dbUpdatedAudiosRef, snapshot, audioType);//category-type-db, updated-db
+            self.getDownloadUrl(uploadAudiosRef, dbUpdatedAudiosRef, snapshot, audioType, category);//category-type-db, updated-db
 
         })
             .then(function () {
@@ -282,7 +287,7 @@ export default class UploadPanel extends Component {
 
         if (files) {
             for (let file of files) {
-                this.fileUpload(file, audiosRef, uploadAudiosRef, dbUpdatedAudiosRef, audioType);//every file
+                this.fileUpload(file, audiosRef, uploadAudiosRef, dbUpdatedAudiosRef, audioType, category);//every file
             }
         } else {
             console.log('no file')

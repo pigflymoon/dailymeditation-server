@@ -57,6 +57,14 @@ const NavigationAuth = (userAndRole) => {
                     fixedWidth={false}
                     size="1x"
                 />
+                <StyledLink to={routes.ANXIETY}>Upload For Meditation Anxiety</StyledLink>
+            </SideNavLi>
+            <SideNavLi>
+                <FontAwesomeIcon
+                    icon={['fas', 'file-audio']}
+                    fixedWidth={false}
+                    size="1x"
+                />
                 <StyledLink to={routes.MEDITATIONCATEGORY}>Upload For Meditation Category</StyledLink>
             </SideNavLi>
             <SideNavLi>

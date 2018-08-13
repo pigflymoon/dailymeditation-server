@@ -2,6 +2,7 @@
 export const OVERVIEW = '/overview';
 export const BEGINNER =   '/beginner';
 export const MEDITATIONCATEGORY = '/MeditationCategory';//MeditationCategory
+export const ANXIETY = '/anxiety';
 
 // Auth
 export const SIGN_IN = '/signin';

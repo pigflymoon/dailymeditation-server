@@ -22,7 +22,7 @@ import Navigation from '../components/Navigation';
 import Overview from '../screens/Overview';
 import Beginner from '../screens/upload/Beginner';
 import MeditationCategory from '../screens/upload/MeditationCategory';
-
+import Anxiety from '../screens/type/Anxiety';
 import SignIn from '../screens/auth/SignIn';
 import SignUp from '../screens/auth/SignUp';
 import Account from '../screens/auth/Account';
@@ -86,6 +86,7 @@ class App extends Component {
                         <Route exact path={routes.OVERVIEW} component={() => <Overview />}/>
                         <Route exact path={routes.BEGINNER} component={() => <Beginner />}/>
                         <Route exact path={routes.MEDITATIONCATEGORY} component={() => <MeditationCategory />}/>
+                        <Route exact path={routes.ANXIETY} component={() => <Anxiety />}/>
 
                         <Route exact path={routes.SIGN_IN} component={() => <SignIn/>}/>
                         <Route exact path={routes.SIGN_UP} component={() => <SignUp/>}/>
