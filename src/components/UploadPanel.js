@@ -230,6 +230,7 @@ export default class UploadPanel extends Component {
                 console.log('newAudioKey', newAudioKey);
 
                 var saveFilename = snapshot.metadata.name;
+                audioType = audioType.replace(/([a-z])([A-Z])/g, '$1 $2').toLowerCase();
                 uploadAudiosRef.child(newAudioKey + '_audio').set({
                     downloadUrl: downloadUrl,
                     name: saveFilename,

@@ -48,13 +48,13 @@ class Anxiety extends Component {
             activeTabIndex: 0,
             audioCategory: 'anxiety',
             imageCategory: 'anxietyImage',
-            activeTab: '7DaysofCalmingAnxiety',
+            activeTab: 'sevenDaysOfCalmingAnxiety',
 
         };
     }
 
     handleChange = (event, value) => {
-        let tabs = ["7DaysofCalmingAnxiety", "HowtoCalmAnxiety"];
+        let tabs = ["sevenDaysOfCalmingAnxiety", "howToCalmAnxiety"];
         for (let tab of tabs) {
             let tabValue = tabs[value];
             if (tab == tabValue) {
@@ -85,8 +85,8 @@ class Anxiety extends Component {
                                 indicatorColor="primary"
                                 textColor="primary"
                             >
-                                <Tab label="7 Days of Calming Anxiety" icon={<AlarmIcon />}/>
-                                <Tab label="How to Calm Anxiety" icon={<FavoriteIcon />}/>
+                                <Tab label="sevenDaysOfCalmingAnxiety" icon={<AlarmIcon />}/>
+                                <Tab label="howToCalmAnxiety" icon={<FavoriteIcon />}/>
 
 
                             </Tabs>
