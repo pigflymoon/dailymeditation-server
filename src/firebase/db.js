@@ -1,4 +1,5 @@
 import {db} from './firebase';
+// import {db} from './firebaseAdmin';
 
 //User API
 

@@ -1,4 +1,5 @@
 import {auth} from './firebase';
+// import {auth} from './firebaseAdmin';
 import * as routes from '../constants/routes';
 
 // Sign Up

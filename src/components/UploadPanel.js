@@ -1,5 +1,9 @@
 import React, {Component} from 'react';
 import {db, storage} from '../firebase';
+import {messaging} from '../firebase/firebase';
+// import * as admin from "firebase-admin";
+
+
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
@@ -8,7 +12,10 @@ import Chip from '@material-ui/core/Chip';
 import CircularProgress from '@material-ui/core/CircularProgress';
 
 import {saveAudio, saveImage} from '../utils/firebaseApi';
+import logo from '../assets/images/logo.jpg';
 
+// / Add the public key generated from the console here.
+messaging.usePublicVapidKey("BORC8hfVsrhElH-K9cnnQJyqhkhkhAbMLQkTSx2VxQrQ1zJdY1Gt3WTyS2AaFa8P9irSLEpw0mV3SElzSDYVPvw");
 
 export default class UploadPanel extends Component {
     constructor(props) {
@@ -168,21 +175,44 @@ export default class UploadPanel extends Component {
 
         })
             .then(function () {
-                self.setState({
-                    uploading: false,
-                    uploadStatus: 'Upload is Finished! And save to the database ',
-                    choseImageFiles: []
-                });
-                self.props.onHandleUploadStatus({open: true, uploading: false, error: false});
-
-            })
-            .catch(function (error) {
-                console.error('error is', error);
-                self.setState({uploading: false, choseImageFiles: []});
-                self.props.onHandleUploadStatus({open: true, uploading: false, error: 'error'});
+                    self.setState({
+                        uploading: false,
+                        uploadStatus: 'Upload is Finished! And save to the database ',
+                        choseImageFiles: []
+                    });
+                    //sned notification
 
 
-            });
+                    /*
+                     messaging.setBackgroundMessageHandler(function(payload) {
+                     console.log('firebase-messaging Received background message ', payload);
+                     // Customize notification here
+                     var notificationTitle = 'Background Message Title';
+                     var notificationOptions = {
+                     body: 'Background Message body.',
+                     icon: logo
+                     };
+
+                     return self.registration.showNotification(notificationTitle,
+                     notificationOptions);
+                     });
+                     */
+
+                    //
+                    self.props.onHandleUploadStatus({open: true, uploading: false, error: false});
+
+                }
+            )
+            .catch(
+                function (error) {
+                    console.error('error is', error);
+                    self.setState({uploading: false, choseImageFiles: []});
+                    self.props.onHandleUploadStatus({open: true, uploading: false, error: 'error'});
+
+
+                }
+            )
+        ;
     }
 
     imagesUpload = (files, imageCategory, audioCategory, audioType) => {
@@ -202,21 +232,31 @@ export default class UploadPanel extends Component {
     }
 
 
-    //Upload Audio
+//Upload Audio
     handleUploadAudio = (e, category, audioType) => {
         e.preventDefault();
         console.log('choseFiles length', this.state.choseFiles)
-        if (!(this.state.choseFiles) || this.state.choseFiles.length < 1) {
-            this.setState({uploading: false, choseFiles: []});
-            // this.props.onHandleDialog(true);
-            this.props.onHandleUploadStatus({open: true, uploading: false, error: 'Please choose file'});
+        messaging.requestPermission()
+            .then(function(){
+                console.log('Have permission');
+            })
+            .catch(function(err){
+                console.log('error no permission');
+            })
+        /*
+         if (!(this.state.choseFiles) || this.state.choseFiles.length < 1) {
+         this.setState({uploading: false, choseFiles: []});
+         // this.props.onHandleDialog(true);
+         this.props.onHandleUploadStatus({open: true, uploading: false, error: 'Please choose file'});
 
-        } else {
-            this.setState({uploading: true});
-            this.props.onHandleUploadStatus({open: false, uploading: true, error: false});
+         } else {
+         this.setState({uploading: true});
+         this.props.onHandleUploadStatus({open: false, uploading: true, error: false});
 
-            this.filesUpload(this.state.choseFiles, category, audioType);
-        }
+         this.filesUpload(this.state.choseFiles, category, audioType);
+         }
+
+         */
     }
 
     getDownloadUrl = (uploadAudiosRef, dbUpdatedAudiosRef, snapshot, audioType, category) => {//db,
