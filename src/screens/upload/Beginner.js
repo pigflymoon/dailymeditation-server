@@ -49,13 +49,13 @@ class Beginner extends Component {
             audioCategory: 'beginner',
             imageCategory: 'beginnerImage',
 
-            activeTab: 'beingPresent',
+            activeTab: 'howToBreathe',
 
         };
     }
 
     handleChange = (event, value) => {
-        let tabs = ["beingPresent", "howToBreathe", "bodyScan", "observeYourThoughts", "makeSpaceForYourEmotions", "setMeditationGoals", "meditateEveryDay"];
+        let tabs = ["howToBreathe", "beingPresent", "observeYourThoughts", "bodyScan", "makeSpaceForYourEmotions"];
         for (let tab of tabs) {
             let tabValue = tabs[value];
             if (tab == tabValue) {
@@ -86,17 +86,16 @@ class Beginner extends Component {
                                 indicatorColor="primary"
                                 textColor="primary"
                             >
-                                <Tab label="Being Present" icon={<AlarmIcon />}/>
                                 <Tab label="How to Breathe" icon={<FavoriteIcon />}/>
-                                <Tab label="Body Scan" icon={<PersonPinIcon />}/>
+                                <Tab label="Being Present" icon={<AlarmIcon />}/>
                                 <Tab label="Observe your Thoughts" icon={<VisibilityIcon />}/>
+                                <Tab label="Body Scan" icon={<PersonPinIcon />}/>
                                 <Tab label="Make Space for your emotions" icon={<SentimentSatisfiedIcon />}/>
-                                <Tab label="Set Meditation Goals" icon={<RoomIcon />}/>
-                                <Tab label="Bring Meditation into Your Every Day Life" icon={<CalendarTodayIcon />}/>
                             </Tabs>
                         </AppBar>
                         <TabContainer>
-                            <UploadPanel classes={classes} imageCategory={this.state.imageCategory} audioCategory={this.state.audioCategory}
+                            <UploadPanel classes={classes} imageCategory={this.state.imageCategory}
+                                         audioCategory={this.state.audioCategory}
                                          activeTabIndex={activeTabIndex} activeTab={this.state.activeTab}
                                          onHandleUploadStatus={this.handleUploadStatus}
                             />
