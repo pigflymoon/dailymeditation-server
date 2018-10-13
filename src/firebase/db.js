@@ -43,7 +43,7 @@ export const getUpdatedAudioRefByTCategoryAndType = (category) => {
     return db.ref().child(`updated${category}`);
 }
 
-export const getImageRefByTCategoryAndType = (category, imageType) => {
+export const getImageRefByCategoryAndType = (category, imageType) => {
     console.log('db imageType is ', imageType)
     return db.ref().child(`${category}/${imageType}`);
 }

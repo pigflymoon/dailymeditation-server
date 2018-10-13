@@ -49,13 +49,14 @@ class MeditationCategory extends Component {
         this.state = {
             activeTabIndex: 0,
             audioCategory: 'meditationCategory',
+            imageCategory: 'meditationCategoryImage',
             activeTab: 'anxiety',
 
         };
     }
 
     handleChange = (event, value) => {
-        let tabs = ["anxiety", "stress", "focus", "sleep", "emotions", "healing", "lettingGo", "innerPeace"];
+        let tabs = ["anxiety", "lettingGo", "healing"];
         for (let tab of tabs) {
             let tabValue = tabs[value];
             if (tab == tabValue) {
@@ -87,18 +88,14 @@ class MeditationCategory extends Component {
                                 textColor="primary"
                             >
                                 <Tab label="Anxiety" icon={<SentimentDissatisfiedIcon />}/>
-                                <Tab label="Stress" icon={<MoodBadIcon />}/>
-                                <Tab label="Focus & Attention" icon={<PersonPinIcon />}/>
-                                <Tab label="Sleep" icon={<TimelapseIcon />}/>
-                                <Tab label="Emotions" icon={<SentimentSatisfiedIcon />}/>
-                                <Tab label="Healing" icon={<WbSunnyIcon />}/>
                                 <Tab label="Letting Go" icon={<FilterDramaIcon />}/>
-                                <Tab label="Inner Peace" icon={<MoodIcon />}/>
-
+                                <Tab label="Healing" icon={<WbSunnyIcon />}/>
                             </Tabs>
                         </AppBar>
                         <TabContainer>
-                            <UploadPanel classes={classes} audioCategory={this.state.audioCategory}
+                            <UploadPanel classes={classes}
+                                         imageCategory={this.state.imageCategory}
+                                         audioCategory={this.state.audioCategory}
                                          activeTabIndex={activeTabIndex} activeTab={this.state.activeTab}
                                          onHandleUploadStatus={this.handleUploadStatus}
                             />
